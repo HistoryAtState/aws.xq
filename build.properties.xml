@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <app>
+        <name>aws.xq</name>
+        <url>http://history.state.gov/ns/pkg/aws.xq</url>
+        <title>aws.xq</title>
+        <version>0.1.0</version>
+    </app>
+</root>
