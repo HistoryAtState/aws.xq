@@ -25,7 +25,7 @@
 
 # Make sure the package has been deployed
 @test "logs show package deployment" {
-  result=$(docker logs exist | grep -o 'http://history.state.gov/ns/pkg/aws.xq')
+  result=$(docker logs exist | grep -o -m 1 'http://history.state.gov/ns/pkg/aws.xq')
   [ "$result" == 'http://history.state.gov/ns/pkg/aws.xq' ]
 }
 
