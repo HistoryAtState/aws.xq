@@ -4,6 +4,7 @@
         <name>aws-xq</name>
         <url>http://history.state.gov/ns/pkg/aws.xq</url>
         <title>aws.xq</title>
-        <version>0.1.0</version>
+        <!-- VERSION SET AUTOMATICALLY DO NOT CHANGE -->
+        <!-- <version>0.1.0</version> -->
     </app>
 </root>
