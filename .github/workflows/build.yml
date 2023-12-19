@@ -44,6 +44,13 @@ jobs:
           java-version: ${{ matrix.java-version }}
       - run: ant
 
+      # TODO(DP): temporary solution
+      - name: Install expath dependencies
+        working-directory: build
+        run: |
+          wget -O 01.xar http://exist-db.org/exist/apps/public-repo/public/functx-1.0.1.xar
+          wget -O 02.xar https://github.com/eXist-db/expath-crypto-module/releases/download/6.0.1/expath-crypto-module-6.0.1.xar
+
       # Install
       - name: Start exist-ci containers
         run: |
