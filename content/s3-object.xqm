@@ -56,7 +56,7 @@ declare function s3-object:put(
             case ".tif"
             case ".tiff" return "image/tiff"
             case ".txt"  return "text/plain"
-            case ".xml"  return "text/xml"
+            case ".xml"  return "application/xml"
             default return "binary/octet-stream"
     let $request := 
         aws-request:create("PUT", $href, $parameters) 
