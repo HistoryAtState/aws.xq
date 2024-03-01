@@ -53,6 +53,7 @@ declare function s3-object:put(
             case ".mobi" return "application/x-mobipocket-ebook"
             case ".pdf"  return "application/pdf"
             case ".png"  return "image/png"
+            case ".tif"
             case ".tiff" return "image/tiff"
             case ".txt"  return "text/plain"
             case ".xml"  return "text/xml"
