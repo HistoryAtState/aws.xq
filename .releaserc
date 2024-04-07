@@ -2,7 +2,16 @@
   "branches": ["main"],  
   "plugins": [
     "@semantic-release/commit-analyzer",
+    {
+      "preset": "conventionalcommits",
+      "releaseRules": [
+        { "type": "", "release": "patch" }
+      ]
+    },
     "@semantic-release/release-notes-generator",
+    {
+      "preset": "conventionalcommits"
+    },
     ["@semantic-release/exec", {
       "prepareCmd": "ant -Dapp.version=${nextRelease.version}"
     }],
@@ -13,9 +22,9 @@
     ["@semantic-release/github", {
       "assets": [
         {
-          "path": "build/aws-xq-*.xar", 
-          "name": "aws-xq-${nextRelease.version}.xar",
-          "label": "Expath package (aws-xq-${nextRelease.version}.xar)"
+          "path": "build/aws-xq.xar", 
+          "name": "aws-xq.xar",
+          "label": "Expath package (aws-xq.xar)"
         }
       ]
     }]
