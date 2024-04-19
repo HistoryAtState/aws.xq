@@ -45,6 +45,25 @@ declare function s3-object:encode-object-key-name($key-name as xs:string) {
 };
 
 (:
+ : Get binaries from S3 using STS tokens
+ : 
+ : Adapted from object:get()
+:)
+declare function s3-object:get(
+    $bucket as xs:string, 
+    $filename as xs:string
+) {
+    let $credentials := ec2-metadata:get-credentials()
+    let $object-key-name := s3-object:encode-object-key-name($filename)
+    let $href := concat("https://s3.amazonaws.com/", $bucket, "/", $object-key-name)
+    let $parameters := <parameter name="X-Amz-Security-Token" value="{$credentials?Token}" />
+    let $request := aws-request:create("GET", $href, $parameters)
+    let $signed-request := aws-request:sign($request, $bucket, $object-key-name, $credentials?AccessKeyId, $credentials?SecretAccessKey)
+    return
+        s3-request:send($signed-request)
+};
+
+(:
  : Create and update binaries in S3 using STS tokens
  : 
  : Adapted from object:write()
