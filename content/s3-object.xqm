@@ -33,6 +33,37 @@ import module namespace ec2-metadata = "http://history.state.gov/ns/xquery/aws/e
 import module namespace s3-request = "http://history.state.gov/ns/xquery/aws/s3/request";
 
 (:
+ : Encode object key names using the S3 API rules for using "UriEncode()" on object key names
+ : 
+ : @see https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html
+ :)
+declare function s3-object:encode-object-key-name($key-name as xs:string) {
+    $filename
+    => tokenize("/")
+    => for-each(function($slug) { encode-for-uri($slug) })
+    => string-join("/")
+};
+
+(:
+ : Get binaries from S3 using STS tokens
+ : 
+ : Adapted from object:get()
+:)
+declare function s3-object:get(
+    $bucket as xs:string, 
+    $filename as xs:string
+) {
+    let $credentials := ec2-metadata:get-credentials()
+    let $object-key-name := s3-object:encode-object-key-name($filename)
+    let $href := concat("https://s3.amazonaws.com/", $bucket, "/", $object-key-name)
+    let $parameters := <parameter name="X-Amz-Security-Token" value="{$credentials?Token}" />
+    let $request := aws-request:create("GET", $href, $parameters)
+    let $signed-request := aws-request:sign($request, $bucket, $object-key-name, $credentials?AccessKeyId, $credentials?SecretAccessKey)
+    return
+        s3-request:send($signed-request)
+};
+
+(:
  : Create and update binaries in S3 using STS tokens
  : 
  : Adapted from object:write()
@@ -43,7 +74,8 @@ declare function s3-object:put(
     $binary as xs:base64Binary
 ) {
     let $credentials := ec2-metadata:get-credentials()
-    let $href := concat("https://s3.amazonaws.com/", $bucket, "/", $filename)
+    let $object-key-name := s3-object:encode-object-key-name($filename)
+    let $href := concat("https://s3.amazonaws.com/", $bucket, "/", $object-key-name)
     let $parameters := <parameter name="X-Amz-Security-Token" value="{$credentials?Token}"/>
     let $file-extension := replace($filename, "^.+?(\.[a-z]+)$", "$1")
     let $content-type := 
@@ -61,7 +93,7 @@ declare function s3-object:put(
     let $request := 
         aws-request:create("PUT", $href, $parameters) 
         => aws-request:add-content-binary($binary, $content-type)
-    let $signed-request := aws-request:sign($request, $bucket, $filename, $credentials?AccessKeyId, $credentials?SecretAccessKey)
+    let $signed-request := aws-request:sign($request, $bucket, $object-key-name, $credentials?AccessKeyId, $credentials?SecretAccessKey)
     return
         s3-request:send($signed-request)
 };
@@ -76,10 +108,11 @@ declare function s3-object:delete(
     $filename as xs:string
 ) {
     let $credentials := ec2-metadata:get-credentials()
-    let $href := concat("https://s3.amazonaws.com/", $bucket, "/", $filename)
+    let $object-key-name := s3-object:encode-object-key-name($filename)
+    let $href := concat("https://s3.amazonaws.com/", $bucket, "/", $object-key-name)
     let $parameters := <parameter name="X-Amz-Security-Token" value="{$credentials?Token}" />
     let $request := aws-request:create("DELETE", $href, $parameters)
-    let $signed-request := aws-request:sign($request, $bucket, $filename, $credentials?AccessKeyId, $credentials?SecretAccessKey)
+    let $signed-request := aws-request:sign($request, $bucket, $object-key-name, $credentials?AccessKeyId, $credentials?SecretAccessKey)
     return
         s3-request:send($signed-request)
 };
