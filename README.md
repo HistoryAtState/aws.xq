@@ -2,6 +2,8 @@
 
 [![exist-db CI](https://github.com/HistoryAtState/aws.xq/actions/workflows/build.yml/badge.svg)](https://github.com/HistoryAtState/aws.xq/actions/workflows/build.yml)
 
+<img src="icon.svg" align="left" width="25%"/>
+
 Adapted from Klaus Wichmann's xaws library - https://github.com/dknochen/xaws - with a primary focus on accessing S3 buckets with eXist-db.
 
 ## Build
