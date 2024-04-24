@@ -38,7 +38,7 @@ import module namespace s3-request = "http://history.state.gov/ns/xquery/aws/s3/
  : @see https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html
  :)
 declare function s3-object:encode-object-key-name($key-name as xs:string) {
-    $filename
+    $key-name
     => tokenize("/")
     => for-each(function($slug) { encode-for-uri($slug) })
     => string-join("/")
