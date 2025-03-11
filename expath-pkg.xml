@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://expath.org/ns/pkg" name="http://history.state.gov/ns/pkg/aws.xq" abbrev="aws-xq" version="1.2.3" spec="1.0">
+    <title>aws.xq</title>
+    <dependency processor="http://exist-db.org" semver-min="6.0.0"/>
+    <dependency package="http://www.functx.com"/>
+    <dependency package="http://expath.org/ns/crypto"/>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/error</namespace>
+        <file>aws-error.xqm</file>
+    </xquery>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/request</namespace>
+        <file>aws-request.xqm</file>
+    </xquery>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/utils</namespace>
+        <file>aws-utils.xqm</file>
+    </xquery>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/ec2/metadata</namespace>
+        <file>ec2-metadata.xqm</file>
+    </xquery>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/s3/bucket</namespace>
+        <file>s3-bucket.xqm</file>
+    </xquery>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/s3/error</namespace>
+        <file>s3-error.xqm</file>
+    </xquery>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/s3/object</namespace>
+        <file>s3-object.xqm</file>
+    </xquery>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/s3/request</namespace>
+        <file>s3-request.xqm</file>
+    </xquery>
+</package>

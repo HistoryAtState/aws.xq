@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo" commit-id="078b373bc5b462e9ebe1519341c87486e82d1537" commit-time="1741352788">
+    <description>XQuery library for accessing Amazon Web Services</description>
+    <author>Joe Wicentowski</author>
+    <website>https://history.state.gov</website>
+    <status/>
+    <license/>
+    <copyright/>
+    <type>library</type>
+</meta>
