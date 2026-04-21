@@ -90,9 +90,9 @@ declare function aws-request:create(
  : Adds the Authorization header to the request according to "Authenticating Requests (AWS Signature Version 4)"
  :
  : TODO Move this function's S3-specific parameters into the s3-request module, keeping this as a generic function for signing all AWS requests.
- : 
+ :
  : @see https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html
- :  
+ :
  :)
 declare function aws-request:sign(
     $request as element(),
@@ -101,8 +101,29 @@ declare function aws-request:sign(
     $aws-key as xs:string,
     $aws-secret as xs:string
 ) {
-    let $service := "s3" (: TODO service should be passed in as an argument :)
-    let $region := "us-east-1" (: TODO region should be passed in as an argument :)
+    aws-request:sign-v4($request, "s3", "us-east-1", $aws-key, $aws-secret)
+};
+
+
+(:~
+ : Adds the Authorization header to the request using AWS Signature Version 4 for an
+ : arbitrary service and region. This is the generic form of aws-request:sign(); service
+ : modules (S3, Textract, ...) should call this directly with their own service identifier.
+ :
+ : @param $request the http:request to sign
+ : @param $service the AWS service identifier (e.g. "s3", "textract")
+ : @param $region  the AWS region (e.g. "us-east-1")
+ : @param $aws-key the AWS access key id
+ : @param $aws-secret the AWS secret access key
+ : @see https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
+ :)
+declare function aws-request:sign-v4(
+    $request as element(),
+    $service as xs:string,
+    $region as xs:string,
+    $aws-key as xs:string,
+    $aws-secret as xs:string
+) {
     let $nl := "&#10;" (: the newline character :)
     
     let $http-method := $request/@method

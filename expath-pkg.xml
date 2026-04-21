@@ -36,4 +36,12 @@
         <namespace>http://history.state.gov/ns/xquery/aws/s3/request</namespace>
         <file>s3-request.xqm</file>
     </xquery>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/textract</namespace>
+        <file>textract.xqm</file>
+    </xquery>
+    <xquery>
+        <namespace>http://history.state.gov/ns/xquery/aws/textract/request</namespace>
+        <file>textract-request.xqm</file>
+    </xquery>
 </package>
